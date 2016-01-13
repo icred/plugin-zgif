@@ -1,0 +1,1 @@
+registeredPlugins = org.zgif.icred.plugin.zgif.Plugin,eu.icred.plugin.Dummy,eu.icred.plugin.csv.Plugin,eu.icred.plugin.shell.Plugin
