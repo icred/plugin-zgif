@@ -45,7 +45,7 @@ public class PeriodsWriter {
                 writer.writeAttribute("periodType", period.getPeriodType().toString());
                 writer.writeAttribute("valueType", period.getValueType().toString());
                 if(period.getValueTypeName() != null) {
-                    writer.writeAttribute("periodTypeName", period.getValueTypeName());
+                    writer.writeAttribute("valueTypeName", period.getValueTypeName());
                 }
                 writer.writeAttribute("from", period.getFrom().toString());
                 writer.writeAttribute("to", period.getTo().toString());

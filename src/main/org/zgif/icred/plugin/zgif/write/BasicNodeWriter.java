@@ -28,6 +28,8 @@ import eu.icred.model.node.Data;
 import eu.icred.model.node.ExtensionMap;
 import eu.icred.model.node.entity.LeasedUnit;
 import eu.icred.model.node.group.AbstractGroupNode;
+import eu.icred.model.node.group.Address;
+import eu.icred.model.node.group.EnergyRating;
 
 /**
  * @author Pascal Houdek
@@ -261,7 +263,7 @@ public class BasicNodeWriter {
     protected String getTagnameOfNode(AbstractNode node) {
         String simpleName = node.getClass().getSimpleName();
 
-        if (node instanceof Data) {
+        if (node instanceof Data || node instanceof Address || node instanceof EnergyRating) {
             return simpleName.toLowerCase();
         } else if (node instanceof LeasedUnit) {
             return "UNIT";

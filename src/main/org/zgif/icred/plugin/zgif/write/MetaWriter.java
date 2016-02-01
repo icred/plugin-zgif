@@ -44,12 +44,8 @@ public class MetaWriter {
             metaWriter.writeCharacters(meta.getVersion());
             metaWriter.writeEndElement();
 
-            metaWriter.writeStartElement("process");
-            metaWriter.writeCharacters(meta.getProcess().toString());
-            metaWriter.writeEndElement();
-
             metaWriter.writeStartElement("language");
-            metaWriter.writeCharacters(meta.getLanguage().toString());
+            metaWriter.writeCharacters(meta.getLanguage().toLanguageTag());
             metaWriter.writeEndElement();
 
             metaWriter.writeStartElement("created");
