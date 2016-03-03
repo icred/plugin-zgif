@@ -30,7 +30,7 @@ public class Plugin implements IPlugin {
      */
     @Override
     public String getPluginVersion() {
-        return "0.6.2";
+        return "0.6.2.1";
     }
 
     /* (non-Javadoc)

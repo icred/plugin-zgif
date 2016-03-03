@@ -75,8 +75,8 @@ public class DataReader extends AbstractReader {
                     Field identifierField = info.getIdentifierField();
                     pd = new PropertyDescriptor(identifierField.getName(), childClass);
                     Method getIdentifier = pd.getReadMethod();
+                    // TODO glue leased unit correct via hash. key is missing atm
                     String objectId = (String) getIdentifier.invoke(child);
-
 
                     map.put(objectId, child);
                 }
@@ -143,10 +143,11 @@ public class DataReader extends AbstractReader {
                     curNode = newNode;
                 } else if (name.equals("extension")) {
                     readExtension(dataStream);
-                } else if(name.equals("data")) {
+                } else if (name.equals("data")) {
 
-                }
-                else if (!name.startsWith("LIST_OF_")) {
+                } else if (name.equals("address")) {
+
+                } else if (!name.startsWith("LIST_OF_")) {
                     try {
                         Map<String, String> attr = new HashMap<String, String>();
                         for (int i = 0; i < dataStream.getAttributeCount(); i++) {
@@ -156,10 +157,10 @@ public class DataReader extends AbstractReader {
                         }
 
                         String value = dataStream.getElementText();
-                        logger.debug("setValue("+curNode+", "+name+", "+value+", "+attr+")");
+                        logger.debug("setValue(" + curNode + ", " + name + ", " + value + ", " + attr + ")");
                         setValue(curNode, name, value, attr);
                     } catch (Throwable t) {
-                        throw new Exception("error writing datafield '" + name + "'", t);
+                        logger.error("error writing datafield '" + name + "'", t);
                     }
                 }
             }
@@ -195,25 +196,25 @@ public class DataReader extends AbstractReader {
 
     private AbstractNode getNodeByName(String tagName) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         AbstractNode node = null;
-        
+
         String simpleClassName = upperCase2CamelCase(tagName);
-        
-        Class<?>[] specialClasses = {Address.class, EnergyRating.class};
+
+        Class<?>[] specialClasses = { Address.class, EnergyRating.class };
         for (int i = 0; i < specialClasses.length; i++) {
-            Class<AbstractNode> specialClass = (Class<AbstractNode>)specialClasses[i];
-            if(specialClass.getSimpleName().equals(simpleClassName)) {
+            Class<AbstractNode> specialClass = (Class<AbstractNode>) specialClasses[i];
+            if (specialClass.getSimpleName().equals(simpleClassName)) {
                 node = specialClass.newInstance();
                 break;
             }
         }
-        
-        if(node == null) {
+
+        if (node == null) {
             Package defaultPackage = Property.class.getPackage();
             String className = defaultPackage.getName() + "." + simpleClassName;
             Class<AbstractNode> clazz = (Class<AbstractNode>) Class.forName(className);
             node = clazz.newInstance();
         }
-        
+
         return node;
     }
 
